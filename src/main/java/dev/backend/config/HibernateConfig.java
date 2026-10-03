@@ -6,12 +6,15 @@ import jakarta.persistence.PersistenceConfiguration;
 import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.tool.schema.Action;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@PropertySource("classpath:/application.properties")
 public class HibernateConfig {
     @Value("${db.driver}")
     private String databaseDriver;
@@ -34,6 +37,7 @@ public class HibernateConfig {
     @Value("${hibernate.highlight_sql}")
     private String hibernateHighlightSQL;
 
+    @Bean
     public EntityManagerFactory entityManagerFactory() {
         Map<String, String> properties = getPersistenceProperties();
 
