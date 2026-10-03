@@ -3,7 +3,9 @@ package dev.backend.dao;
 import dev.backend.entity.Player;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PlayerDao {
     private final EntityManagerFactory emf;
 
