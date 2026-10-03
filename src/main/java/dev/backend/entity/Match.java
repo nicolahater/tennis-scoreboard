@@ -22,6 +22,11 @@ public class Match {
     @JoinColumn(name = "winner_id", referencedColumnName = "id")
     private Player winner;
 
+    public Match(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
+
     public Long getId() {
         return id;
     }
