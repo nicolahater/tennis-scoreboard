@@ -1,4 +1,4 @@
-package config;
+package dev.backend.config;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

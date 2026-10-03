@@ -1,4 +1,4 @@
-package config;
+package dev.backend.config;
 
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
