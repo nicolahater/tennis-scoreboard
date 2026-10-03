@@ -1,6 +1,5 @@
 package dev.backend.dao;
 
-import dev.backend.dto.CreateMatchRequestDTO;
 import dev.backend.entity.Match;
 import dev.backend.entity.Player;
 import jakarta.persistence.EntityManager;
@@ -13,7 +12,7 @@ public class MatchDao {
         this.emf = emf;
     }
 
-    public void createMatch(Player player1, Player player2) {
+    public void create(Player player1, Player player2) {
         EntityManager em = emf.createEntityManager();
 
         // TODO: Extract the try/catch block into a separate class (TransactionHandler).
