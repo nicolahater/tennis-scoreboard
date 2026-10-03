@@ -3,7 +3,10 @@ package dev.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "players")
+@Table(
+        name = "players",
+        indexes = {@Index(name = "name_idx", columnList = "name", unique = true)}
+)
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
