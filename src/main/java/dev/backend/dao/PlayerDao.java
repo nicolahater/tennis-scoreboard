@@ -1,6 +1,6 @@
 package dev.backend.dao;
 
-import dev.backend.entity.Player;
+import dev.backend.entity.PlayerEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ public class PlayerDao {
         this.emf = emf;
     }
 
-    public Player findByName(String name) {
+    public PlayerEntity findByName(String name) {
         EntityManager em = emf.createEntityManager();
 
         try {
@@ -24,14 +24,14 @@ public class PlayerDao {
                     from Player p
                     where p.name = :name
                     """;
-            Player player = em
-                    .createQuery(sql, Player.class)
+            PlayerEntity playerEntity = em
+                    .createQuery(sql, PlayerEntity.class)
                     .setParameter("name", name)
                     .getSingleResult();
 
             em.getTransaction().commit();
 
-            return player;
+            return playerEntity;
         } catch (Exception e) {
             System.out.println("Caught exception: " + e + "; executing rollback...."); // TODO: replace with log
             if(em.getTransaction().isActive()) {
@@ -44,19 +44,19 @@ public class PlayerDao {
         return null;
     }
 
-    // TODO: I can try to create a player and if this player is already in db, then i catch the error and in this catch block I get that player and return
-    public Player create(String name) {
+    // TODO: I can try to create a playerEntity and if this playerEntity is already in db, then i catch the error and in this catch block I get that playerEntity and return
+    public PlayerEntity create(String name) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
 
-            Player newPlayer = new Player(name);
-            em.persist(newPlayer);
+            PlayerEntity newPlayerEntity = new PlayerEntity(name);
+            em.persist(newPlayerEntity);
 
             em.getTransaction().commit();
 
-            return newPlayer;
+            return newPlayerEntity;
         } catch (Exception e) {
             System.out.println("Caught exception: " + e + "; executing rollback...."); // TODO: replace with log
             if(em.getTransaction().isActive()) {

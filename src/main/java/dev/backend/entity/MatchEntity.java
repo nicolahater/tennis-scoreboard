@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "matches")
-public class Match {
+public class MatchEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -12,19 +12,19 @@ public class Match {
 
     @ManyToOne
     @JoinColumn(name = "player1_id", referencedColumnName = "id")
-    private Player player1;
+    private PlayerEntity playerEntity1;
 
     @ManyToOne
     @JoinColumn(name = "player2_id", referencedColumnName = "id")
-    private Player player2;
+    private PlayerEntity playerEntity2;
 
     @ManyToOne
     @JoinColumn(name = "winner_id", referencedColumnName = "id")
-    private Player winner;
+    private PlayerEntity winner;
 
-    public Match(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public MatchEntity(PlayerEntity playerEntity1, PlayerEntity playerEntity2) {
+        this.playerEntity1 = playerEntity1;
+        this.playerEntity2 = playerEntity2;
     }
 
     public Long getId() {
@@ -35,27 +35,27 @@ public class Match {
         this.id = id;
     }
 
-    public Player getPlayer1() {
-        return player1;
+    public PlayerEntity getPlayer1() {
+        return playerEntity1;
     }
 
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
+    public void setPlayer1(PlayerEntity playerEntity1) {
+        this.playerEntity1 = playerEntity1;
     }
 
-    public Player getPlayer2() {
-        return player2;
+    public PlayerEntity getPlayer2() {
+        return playerEntity2;
     }
 
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
+    public void setPlayer2(PlayerEntity playerEntity2) {
+        this.playerEntity2 = playerEntity2;
     }
 
-    public Player getWinner() {
+    public PlayerEntity getWinner() {
         return winner;
     }
 
-    public void setWinner(Player winner) {
+    public void setWinner(PlayerEntity winner) {
         this.winner = winner;
     }
 
@@ -63,8 +63,8 @@ public class Match {
     public String toString() {
         return "Match{" +
                 "id=" + id +
-                ", player1=" + player1 +
-                ", player2=" + player2 +
+                ", player1=" + playerEntity1 +
+                ", player2=" + playerEntity2 +
                 ", winner=" + winner +
                 '}';
     }

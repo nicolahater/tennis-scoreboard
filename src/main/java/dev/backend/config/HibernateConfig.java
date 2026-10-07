@@ -1,6 +1,6 @@
 package dev.backend.config;
 
-import dev.backend.entity.Player;
+import dev.backend.entity.PlayerEntity;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceConfiguration;
 import org.hibernate.cfg.JdbcSettings;
@@ -42,7 +42,7 @@ public class HibernateConfig {
         Map<String, String> properties = getPersistenceProperties();
 
         EntityManagerFactory emf = new PersistenceConfiguration("persistence-unit")
-                .managedClass(Player.class)
+                .managedClass(PlayerEntity.class)
                 .properties(properties)
                 .createEntityManagerFactory();
 

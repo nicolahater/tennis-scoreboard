@@ -7,7 +7,7 @@ import jakarta.persistence.*;
         name = "players",
         indexes = {@Index(name = "name_idx", columnList = "name", unique = true)}
 )
-public class Player {
+public class PlayerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -16,10 +16,10 @@ public class Player {
     @Column(name = "name")
     private String name;
 
-    public Player() {
+    public PlayerEntity() {
     }
 
-    public Player(String name) {
+    public PlayerEntity(String name) {
         this.name = name;
     }
 
