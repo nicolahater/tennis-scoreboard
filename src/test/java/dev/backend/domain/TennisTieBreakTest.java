@@ -12,8 +12,8 @@ public class TennisTieBreakTest {
 
     @BeforeEach
     void setUp() {
-        player1 = new TennisPlayer("Alice");
-        player2 = new TennisPlayer("Bob");
+        player1 = new TennisPlayer("Player 1");
+        player2 = new TennisPlayer("Player 2");
         tieBreak = new TennisTieBreak(player1, player2);
     }
 
