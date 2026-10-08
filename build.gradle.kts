@@ -13,7 +13,8 @@ dependencies {
     // Web
     implementation("org.springframework:spring-webmvc:7.0.8")
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
-
+    // json mapper
+    implementation("tools.jackson.core:jackson-databind:3.2.3")
 
     // DB
     implementation("org.postgresql:postgresql:42.7.13")
