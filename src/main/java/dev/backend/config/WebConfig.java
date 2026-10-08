@@ -6,9 +6,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@EnableWebMvc
-@Configuration
+//@Configuration
+@EnableWebMvc
 @ComponentScan("dev.backend")
-public class WebConfig implements WebMvcConfigurer {
+//public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
 
 }
