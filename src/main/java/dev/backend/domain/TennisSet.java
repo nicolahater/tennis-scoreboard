@@ -3,18 +3,13 @@ package dev.backend.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TennisSet {
-    private final TennisPlayer player1;
-    private final TennisPlayer player2;
-
+public class TennisSet extends TennisGameplay {
     private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
     private TennisGame currentGame;
     private final TennisTieBreak tieBreak;
-    private TennisPlayer winner = null;
 
     public TennisSet(TennisPlayer player1, TennisPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+        super(player1, player2);
 
         gameScore.put(player1, 0);
         gameScore.put(player2, 0);
@@ -31,16 +26,15 @@ public class TennisSet {
         if (isTieBreak()) {
             tieBreak.addPointTo(player);
             if(tieBreak.isFinished()) {
-                winner = player;
+                setWinner(player);
             }
             return;
         }
 
         currentGame.addPointTo(player);
         if(currentGame.isFinished()) {
-//            TennisPlayer currentGameWinner = currentGame.getWinner();
             gameScore.put(player, gameScore.get(player) + 1);
-            currentGame = new TennisGame(player1, player2);
+            currentGame = new TennisGame(getPlayer1(), getPlayer2());
         }
         Integer playersGameScore = gameScore.get(player);
 
@@ -49,7 +43,7 @@ public class TennisSet {
 
         //
         if((playersGameScore == 6 && opponentsGameScore < 5) || (playersGameScore == 7 && opponentsGameScore == 5)) {
-            winner = player;
+            setWinner(player);
         }
     }
 
@@ -66,25 +60,13 @@ public class TennisSet {
         return currentGame;
     }
 
-    public TennisPlayer getOpponent(TennisPlayer player) {
-        return player.equals(player1) ? player2 : player1;
-    }
-
-    public TennisPlayer getWinner() {
-        return winner;
-    }
-
     public Integer getScore(TennisPlayer player) {
 //        return isTieBreak() ? null : gameScore.get(player);
         return gameScore.get(player);
     }
 
-    public boolean isFinished() {
-        return winner != null;
-    }
-
     public boolean isTieBreak() {
-        return gameScore.get(player1) == 6 && gameScore.get(player2) == 6;
+        return gameScore.get(getPlayer1()) == 6 && gameScore.get(getPlayer2()) == 6;
     }
 
     public Integer getTieBreakScore(TennisPlayer player) {

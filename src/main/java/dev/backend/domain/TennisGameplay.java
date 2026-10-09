@@ -6,8 +6,8 @@ import java.util.Map;
 public class TennisGameplay {
     private final TennisPlayer player1;
     private final TennisPlayer player2;
-//    private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
     private TennisPlayer winner = null;
+//    private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
 
 
     public TennisGameplay(TennisPlayer player1, TennisPlayer player2) {
@@ -36,6 +36,15 @@ public class TennisGameplay {
     //    public PointScore getScore(TennisPlayer player) {
 //        return scores.get(player);
 //    }
+
+
+    public TennisPlayer getPlayer1() {
+        return player1;
+    }
+
+    public TennisPlayer getPlayer2() {
+        return player2;
+    }
 
     public boolean isFinished() {
         return winner != null;
