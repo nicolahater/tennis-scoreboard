@@ -6,7 +6,8 @@ import java.util.Map;
 public class TennisGameplay {
     private final TennisPlayer player1;
     private final TennisPlayer player2;
-    private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
+//    private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
+    private TennisPlayer winner = null;
 
 
     public TennisGameplay(TennisPlayer player1, TennisPlayer player2) {
@@ -14,7 +15,6 @@ public class TennisGameplay {
         this.player2 = player2;
     }
 
-    private TennisPlayer winner = null;
 
 
     public TennisPlayer getOpponent(TennisPlayer player) {
@@ -29,8 +29,11 @@ public class TennisGameplay {
         return winner;
     }
 
+    public void setWinner(TennisPlayer winner) {
+        this.winner = winner;
+    }
 
-//    public PointScore getScore(TennisPlayer player) {
+    //    public PointScore getScore(TennisPlayer player) {
 //        return scores.get(player);
 //    }
 

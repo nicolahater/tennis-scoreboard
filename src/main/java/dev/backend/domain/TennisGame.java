@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class TennisGame extends TennisGameplay {
     private final Map<TennisPlayer, PointScore> scores = new HashMap<>();
-    private TennisPlayer winner = null;
 
     public TennisGame(TennisPlayer player1, TennisPlayer player2) {
         super(player1, player2);
@@ -29,7 +28,7 @@ public class TennisGame extends TennisGameplay {
         if(nextPoint.equals(PointScore.GAME)
                 || nextPoint.equals(PointScore.ADVANTAGE)
                 && opponentScore.ordinal() < PointScore.FORTY.ordinal()) {
-            winner = player;
+            setWinner(player);
 
 
 //            scores.put(player1, null);
