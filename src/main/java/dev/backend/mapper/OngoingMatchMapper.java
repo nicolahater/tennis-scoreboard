@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OngoingMatchMapper {
-    public OngoingMatchDTO toMatchMapperDTO(TennisMatchScore match) {
+    public OngoingMatchDTO toMatchMapperDTO(TennisMatch match) {
         TennisPlayer player1 = match.getPlayer1();
         TennisPlayer player2 = match.getPlayer2();
 
@@ -20,7 +20,7 @@ public class OngoingMatchMapper {
                 String.valueOf(match.getPointScoreFor(player1)),
                 match.getGameScoreFor(player1),
                 match.getSetScoreFor(player1),
-                match.getCurrentSet().getTieBreakScore(player1)
+                match.getTieBreakScoreFor(player1)
         );
 
         PlayerScoreDTO player2DTO = new PlayerScoreDTO(
@@ -28,10 +28,12 @@ public class OngoingMatchMapper {
                 String.valueOf(match.getPointScoreFor(player2)),
                 match.getGameScoreFor(player2),
                 match.getSetScoreFor(player2),
-                match.getCurrentSet().getTieBreakScore(player2)
+                match.getTieBreakScoreFor(player2)
         );
 
-        String winnerName = match.getWinner() != null ? match.getWinner().name() : null;
+        String winnerName = match.getMatchScore().getWinner() != null
+                            ? match.getMatchScore().getWinner().name()
+                            : null;
 
         return new OngoingMatchDTO(player1DTO, player2DTO, winnerName);
     }

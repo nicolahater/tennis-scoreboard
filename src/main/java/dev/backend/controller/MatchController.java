@@ -1,5 +1,6 @@
 package dev.backend.controller;
 
+import dev.backend.domain.TennisMatch;
 import dev.backend.domain.TennisMatchScore;
 import dev.backend.domain.TennisPlayer;
 import dev.backend.dto.CreateMatchRequestDTO;
@@ -32,14 +33,9 @@ public class MatchController {
 
     @GetMapping(path = "/{uuid}")
     public OngoingMatchDTO getOngoingMatch(@PathVariable("uuid") UUID uuid) {
-        TennisMatchScore match = matchService.getOngoingMatch(uuid);
+        TennisMatch match = matchService.getOngoingMatch(uuid);
         TennisPlayer player1 = match.getPlayer1();
         TennisPlayer player2 = match.getPlayer2();
-
-        match.addPointTo(player1);
-        match.addPointTo(player1);
-        match.addPointTo(player1);
-        match.addPointTo(player2);
 
         return ongoingMatchMapper.toMatchMapperDTO(match);
     }
