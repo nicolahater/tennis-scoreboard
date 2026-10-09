@@ -37,4 +37,8 @@ public class MatchService {
 
         return new CreateMatchResponseDTO(matchUUID);
     }
+
+    public TennisMatchScore getOngoingMatch(UUID uuid) {
+        return concurrentHashMap.get(uuid);
+    }
 }
