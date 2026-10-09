@@ -3,16 +3,11 @@ package dev.backend.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TennisTieBreak {
-    private final TennisPlayer player1;
-    private final TennisPlayer player2;
-
+public class TennisTieBreak extends TennisGameplay {
     private final Map<TennisPlayer, Integer> tieBreakScore = new HashMap<>();
-    private TennisPlayer winner = null;
 
     public TennisTieBreak(TennisPlayer player1, TennisPlayer player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+        super(player1, player2);
         tieBreakScore.put(player1, 0);
         tieBreakScore.put(player2, 0);
     }
@@ -29,19 +24,11 @@ public class TennisTieBreak {
         Integer opponentsScore = tieBreakScore.get(opponent);
 
         if(playersNewScore >= 7 && playersNewScore-opponentsScore >= 2) {
-            winner = player;
+            setWinner(player);
         }
-    }
-
-    public TennisPlayer getOpponent(TennisPlayer player) {
-        return player.equals(player1) ? player2 : player1;
     }
 
     public Integer getScore(TennisPlayer player) {
         return tieBreakScore.get(player);
-    }
-
-    public boolean isFinished() {
-        return winner != null;
     }
 }
