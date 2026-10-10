@@ -7,6 +7,8 @@ import dev.backend.domain.TennisMatchScore;
 import dev.backend.domain.TennisPlayer;
 import dev.backend.dto.CreateMatchRequestDTO;
 import dev.backend.dto.CreateMatchResponseDTO;
+import dev.backend.dto.OngoingMatchDTO;
+import dev.backend.mapper.OngoingMatchMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -16,12 +18,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
+    private final OngoingMatchMapper matchMapper;
     private ConcurrentHashMap<UUID, TennisMatch> concurrentHashMap = new ConcurrentHashMap<>();
 
-
-    public MatchService(PlayerDao playerDao, MatchDao matchDao) {
+    public MatchService(PlayerDao playerDao, MatchDao matchDao, OngoingMatchMapper matchMapper) {
         this.playerDao = playerDao;
         this.matchDao = matchDao;
+        this.matchMapper = matchMapper;
     }
 
     public CreateMatchResponseDTO create(CreateMatchRequestDTO requestDTO) {
@@ -34,10 +37,10 @@ public class MatchService {
         concurrentHashMap.put(matchUUID, match);
 
 
-        return new CreateMatchResponseDTO(matchUUID);
+        return new CreateMatchResponseDTO(matchUUID); // TODO: in mapper
     }
 
-    public TennisMatch getOngoingMatch(UUID uuid) {
-        return concurrentHashMap.get(uuid);
+    public OngoingMatchDTO getOngoingMatch(UUID uuid) {
+        return matchMapper.toMatchMapperDTO(concurrentHashMap.get(uuid));
     }
 }

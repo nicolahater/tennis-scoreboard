@@ -33,10 +33,8 @@ public class MatchController {
 
     @GetMapping(path = "/{uuid}")
     public OngoingMatchDTO getOngoingMatch(@PathVariable("uuid") UUID uuid) {
-        TennisMatch match = matchService.getOngoingMatch(uuid);
-        TennisPlayer player1 = match.getPlayer1();
-        TennisPlayer player2 = match.getPlayer2();
+        OngoingMatchDTO matchDTO = matchService.getOngoingMatch(uuid);
 
-        return ongoingMatchMapper.toMatchMapperDTO(match);
+        return matchDTO;
     }
 }

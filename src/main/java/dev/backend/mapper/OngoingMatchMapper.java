@@ -3,13 +3,12 @@ package dev.backend.mapper;
 import dev.backend.domain.TennisMatch;
 import dev.backend.domain.TennisMatchScore;
 import dev.backend.domain.TennisPlayer;
-import dev.backend.domain.TennisPlayerScore;
 import dev.backend.dto.OngoingMatchDTO;
 import dev.backend.dto.PlayerScoreDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OngoingMatchMapper {
+public class OngoingMatchMapper { // TODO: rename to MatchMapper, here will be toDomain and toEntity mappers
     public OngoingMatchDTO toMatchMapperDTO(TennisMatch match) {
         TennisPlayer player1 = match.getPlayer1();
         TennisPlayer player2 = match.getPlayer2();
