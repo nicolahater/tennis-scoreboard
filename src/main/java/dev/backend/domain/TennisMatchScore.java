@@ -50,7 +50,7 @@ public class TennisMatchScore {
         return winner;
     }
 
-    public Integer getScore(TennisPlayer player) {
+    public Integer getScoreFor(TennisPlayer player) {
         return setScore.get(player);
     }
 

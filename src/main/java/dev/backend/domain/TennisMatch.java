@@ -11,6 +11,10 @@ public class TennisMatch {
         this.matchScore = new TennisMatchScore(player1, player2);
     }
 
+    public TennisMatchScore getMatchScore() {
+        return matchScore;
+    }
+
     public TennisPlayer getPlayer1() {
         return player1;
     }
