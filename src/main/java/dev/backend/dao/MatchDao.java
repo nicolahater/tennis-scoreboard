@@ -1,7 +1,7 @@
 package dev.backend.dao;
 
-import dev.backend.entity.Match;
-import dev.backend.entity.Player;
+import dev.backend.entity.MatchEntity;
+import dev.backend.entity.PlayerEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,14 +14,14 @@ public class MatchDao {
         this.emf = emf;
     }
 
-    public void create(Player player1, Player player2) {
+    public void create(PlayerEntity player1, PlayerEntity player2) {
         EntityManager em = emf.createEntityManager();
 
         // TODO: Extract the try/catch block into a separate class (TransactionHandler).
         try {
             em.getTransaction().begin();
 
-            Match newMatch = new Match(player1, player2);
+            MatchEntity newMatch = new MatchEntity(player1, player2);
             em.persist(newMatch);
 
             em.getTransaction().commit();
