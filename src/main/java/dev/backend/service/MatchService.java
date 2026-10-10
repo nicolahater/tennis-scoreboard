@@ -3,8 +3,8 @@ package dev.backend.service;
 import dev.backend.dao.MatchDao;
 import dev.backend.dao.PlayerDao;
 import dev.backend.domain.TennisMatch;
-import dev.backend.domain.TennisMatchScore;
 import dev.backend.domain.TennisPlayer;
+import dev.backend.dto.AddPointRequestDTO;
 import dev.backend.dto.CreateMatchRequestDTO;
 import dev.backend.dto.CreateMatchResponseDTO;
 import dev.backend.dto.OngoingMatchDTO;
@@ -42,5 +42,12 @@ public class MatchService {
 
     public OngoingMatchDTO getOngoingMatch(UUID uuid) {
         return matchMapper.toMatchMapperDTO(concurrentHashMap.get(uuid));
+    }
+
+    public OngoingMatchDTO addPointToPlayer(UUID uuid, AddPointRequestDTO requestDTO) {
+        TennisMatch match = concurrentHashMap.get(uuid);
+        match.getMatchScore().addPointTo(new TennisPlayer(requestDTO.name())); // TODO: in score maps instead of TennisPlayer use just String, also you can avoid using TennisPlayer or add createPlayer method and create player at first
+
+        return matchMapper.toMatchMapperDTO(match);
     }
 }

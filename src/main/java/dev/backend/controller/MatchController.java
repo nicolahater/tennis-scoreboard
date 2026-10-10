@@ -1,12 +1,9 @@
 package dev.backend.controller;
 
-import dev.backend.domain.TennisMatch;
-import dev.backend.domain.TennisMatchScore;
-import dev.backend.domain.TennisPlayer;
+import dev.backend.dto.AddPointRequestDTO;
 import dev.backend.dto.CreateMatchRequestDTO;
 import dev.backend.dto.CreateMatchResponseDTO;
 import dev.backend.dto.OngoingMatchDTO;
-import dev.backend.mapper.OngoingMatchMapper;
 import dev.backend.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,11 +15,9 @@ import java.util.UUID;
 @RequestMapping("/matches")
 public class MatchController {
     private final MatchService matchService;
-    private final OngoingMatchMapper ongoingMatchMapper;
 
-    public MatchController(MatchService matchService, OngoingMatchMapper ongoingMatchMapper) {
+    public MatchController(MatchService matchService) {
         this.matchService = matchService;
-        this.ongoingMatchMapper = ongoingMatchMapper;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,8 +28,15 @@ public class MatchController {
 
     @GetMapping(path = "/{uuid}")
     public OngoingMatchDTO getOngoingMatch(@PathVariable("uuid") UUID uuid) {
-        OngoingMatchDTO matchDTO = matchService.getOngoingMatch(uuid);
 
-        return matchDTO;
+        return matchService.getOngoingMatch(uuid);
+    }
+
+    @PostMapping(path = "/{uuid}/point")
+    public OngoingMatchDTO addPointToPlayer(
+            @PathVariable("uuid") UUID uuid,
+            @RequestBody AddPointRequestDTO requestDTO
+    ) {
+        return matchService.addPointToPlayer(uuid, requestDTO);
     }
 }
