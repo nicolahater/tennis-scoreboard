@@ -22,6 +22,9 @@ public class MatchEntity {
     @JoinColumn(name = "winner_id", referencedColumnName = "id")
     private PlayerEntity winner;
 
+    public MatchEntity() {
+    }
+
     public MatchEntity(PlayerEntity playerEntity1, PlayerEntity playerEntity2) {
         this.playerEntity1 = playerEntity1;
         this.playerEntity2 = playerEntity2;
