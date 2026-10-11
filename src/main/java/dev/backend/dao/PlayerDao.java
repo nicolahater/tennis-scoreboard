@@ -45,18 +45,20 @@ public class PlayerDao {
     }
 
     // TODO: I can try to create a playerEntity and if this playerEntity is already in db, then i catch the error and in this catch block I get that playerEntity and return
-    public PlayerEntity create(String name) {
+//    public PlayerEntity create(String name) {
+    public void save(PlayerEntity player) {
         EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
 
-            PlayerEntity newPlayerEntity = new PlayerEntity(name);
-            em.persist(newPlayerEntity);
+//            PlayerEntity newPlayerEntity = new PlayerEntity(name);
+
+            em.persist(player);
 
             em.getTransaction().commit();
 
-            return newPlayerEntity;
+//            return player;
         } catch (Exception e) {
             System.out.println("Caught exception: " + e + "; executing rollback...."); // TODO: replace with log
             if(em.getTransaction().isActive()) {
@@ -66,6 +68,6 @@ public class PlayerDao {
             em.close();
         }
 
-        return null;
+//        return null;
     }
 }
