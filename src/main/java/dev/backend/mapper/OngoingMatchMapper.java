@@ -1,8 +1,8 @@
 package dev.backend.mapper;
 
 import dev.backend.domain.TennisMatch;
-import dev.backend.domain.TennisMatchScore;
 import dev.backend.domain.TennisPlayer;
+import dev.backend.dto.CreateFinishedMatchRequestDTO;
 import dev.backend.dto.OngoingMatchDTO;
 import dev.backend.dto.PlayerScoreDTO;
 import org.springframework.stereotype.Component;
@@ -30,10 +30,18 @@ public class OngoingMatchMapper { // TODO: rename to MatchMapper, here will be t
                 match.getTieBreakScoreFor(player2)
         );
 
-        String winnerName = match.getMatchScore().getWinner() != null
+        String winnerName = match.getMatchScore().getWinner() != null // TODO: if .getWinner() will return Optional<> then we can short this statement
                             ? match.getMatchScore().getWinner().name()
                             : null;
 
         return new OngoingMatchDTO(player1DTO, player2DTO, winnerName);
+    }
+
+    public CreateFinishedMatchRequestDTO toCreateFinishedMatchRequestDTO(TennisMatch match) {
+        return new CreateFinishedMatchRequestDTO(
+                match.getPlayer1().name(),
+                match.getPlayer2().name(),
+                match.getMatchScore().getWinner().name()
+        );
     }
 }
