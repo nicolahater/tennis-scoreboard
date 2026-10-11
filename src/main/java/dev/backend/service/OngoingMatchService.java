@@ -15,13 +15,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class MatchService {
+public class OngoingMatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
     private final OngoingMatchMapper matchMapper;
     private ConcurrentHashMap<UUID, TennisMatch> concurrentHashMap = new ConcurrentHashMap<>();
 
-    public MatchService(PlayerDao playerDao, MatchDao matchDao, OngoingMatchMapper matchMapper) {
+    public OngoingMatchService(PlayerDao playerDao, MatchDao matchDao, OngoingMatchMapper matchMapper) {
         this.playerDao = playerDao;
         this.matchDao = matchDao;
         this.matchMapper = matchMapper;
