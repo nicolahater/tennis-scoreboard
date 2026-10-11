@@ -14,15 +14,16 @@ public class MatchDao {
         this.emf = emf;
     }
 
-    public void create(PlayerEntity player1, PlayerEntity player2) {
+//    public void create(PlayerEntity player1, PlayerEntity player2) {
+    public void save(MatchEntity match) {
         EntityManager em = emf.createEntityManager();
 
         // TODO: Extract the try/catch block into a separate class (TransactionHandler).
         try {
             em.getTransaction().begin();
 
-            MatchEntity newMatch = new MatchEntity(player1, player2);
-            em.persist(newMatch);
+//            MatchEntity newMatch = new MatchEntity(player1, player2);
+            em.persist(match);
 
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -33,7 +34,5 @@ public class MatchDao {
         } finally {
             em.close();
         }
-
-
     }
 }
