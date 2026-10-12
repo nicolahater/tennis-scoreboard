@@ -20,9 +20,7 @@ public class MatchDao {
 
         // TODO: Extract the try/catch block into a separate class (TransactionHandler).
         try {
-            em.getTransaction().begin();
-
-//            MatchEntity newMatch = new MatchEntity(player1, player2);
+            em.getTransaction().begin(); //TODO: this throws error(check docs) if isActive() is true, so we can't have nested transaction. If we want to have transactions in service, then we need to check here if we already in transaction.
             em.persist(match);
 
             em.getTransaction().commit();
