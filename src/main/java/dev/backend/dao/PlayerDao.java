@@ -13,6 +13,7 @@ public class PlayerDao {
         this.emf = emf;
     }
 
+    // TODO: make it Optional<PlayerEntity>
     public PlayerEntity findByName(String name) {
         EntityManager em = emf.createEntityManager();
 
@@ -21,13 +22,13 @@ public class PlayerDao {
 
             String sql = """
                     select p
-                    from Player p
+                    from PlayerEntity p
                     where p.name = :name
                     """;
             PlayerEntity playerEntity = em
                     .createQuery(sql, PlayerEntity.class)
                     .setParameter("name", name)
-                    .getSingleResult();
+                    .getSingleResultOrNull();
 
             em.getTransaction().commit();
 
