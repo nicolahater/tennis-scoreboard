@@ -5,6 +5,6 @@ import java.util.List;
 public record FinishedMatchResponseDTO(
         List<FinishedMatchDTO> matches,
         Integer currentPage,
-        Integer totalPages
+        Long totalPages
 ) {
 }
