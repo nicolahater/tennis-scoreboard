@@ -8,6 +8,7 @@ import dev.backend.dto.AddPointRequestDTO;
 import dev.backend.dto.CreateMatchRequestDTO;
 import dev.backend.dto.CreateMatchResponseDTO;
 import dev.backend.dto.OngoingMatchDTO;
+import dev.backend.mapper.FinishedMatchMapper;
 import dev.backend.mapper.OngoingMatchMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OngoingMatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
-    private final OngoingMatchMapper matchMapper;
+    private final OngoingMatchMapper ongoingMatchMapper;
+    private final FinishedMatchMapper finishedMatchMapper;
     private final FinishedMatchService finishedMatchService;
     private ConcurrentHashMap<UUID, TennisMatch> concurrentHashMap = new ConcurrentHashMap<>();
 
-    public OngoingMatchService(PlayerDao playerDao, MatchDao matchDao, OngoingMatchMapper matchMapper, FinishedMatchService finishedMatchService) {
+    public OngoingMatchService(
+            PlayerDao playerDao,
+            MatchDao matchDao,
+            OngoingMatchMapper ongoingMatchMapper,
+            FinishedMatchMapper finishedMatchMapper,
+            FinishedMatchService finishedMatchService
+    ) {
         this.playerDao = playerDao;
         this.matchDao = matchDao;
-        this.matchMapper = matchMapper;
+        this.ongoingMatchMapper = ongoingMatchMapper;
+        this.finishedMatchMapper = finishedMatchMapper;
         this.finishedMatchService = finishedMatchService;
     }
 
@@ -44,7 +53,7 @@ public class OngoingMatchService {
     }
 
     public OngoingMatchDTO getOngoingMatch(UUID uuid) {
-        return matchMapper.toMatchMapperDTO(concurrentHashMap.get(uuid));
+        return ongoingMatchMapper.toMatchMapperDTO(concurrentHashMap.get(uuid));
     }
 
     // TODO: is this should be transactional? I guess yes
@@ -53,9 +62,9 @@ public class OngoingMatchService {
         match.getMatchScore().addPointTo(new TennisPlayer(requestDTO.name())); // TODO: in score maps instead of TennisPlayer use just String, also you can avoid using TennisPlayer or add createPlayer method and create player at first
 
         if(match.getMatchScore().isFinished()) {
-            finishedMatchService.create(matchMapper.toCreateFinishedMatchRequestDTO(match));
+            finishedMatchService.create(finishedMatchMapper.toCreateFinishedMatchRequestDTO(match));
         }
 
-        return matchMapper.toMatchMapperDTO(match);
+        return ongoingMatchMapper.toMatchMapperDTO(match);
     }
 }

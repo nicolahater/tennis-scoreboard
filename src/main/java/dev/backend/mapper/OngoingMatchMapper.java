@@ -36,12 +36,4 @@ public class OngoingMatchMapper { // TODO: rename to MatchMapper, here will be t
 
         return new OngoingMatchDTO(player1DTO, player2DTO, winnerName);
     }
-
-    public CreateFinishedMatchRequestDTO toCreateFinishedMatchRequestDTO(TennisMatch match) {
-        return new CreateFinishedMatchRequestDTO(
-                match.getPlayer1().name(),
-                match.getPlayer2().name(),
-                match.getMatchScore().getWinner().name()
-        );
-    }
 }
