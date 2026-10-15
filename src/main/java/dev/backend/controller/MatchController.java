@@ -1,9 +1,7 @@
 package dev.backend.controller;
 
-import dev.backend.dto.AddPointRequestDTO;
-import dev.backend.dto.CreateMatchRequestDTO;
-import dev.backend.dto.CreateMatchResponseDTO;
-import dev.backend.dto.OngoingMatchDTO;
+import dev.backend.dto.*;
+import dev.backend.service.FinishedMatchService;
 import dev.backend.service.OngoingMatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,9 +13,11 @@ import java.util.UUID;
 @RequestMapping("/matches")
 public class MatchController {
     private final OngoingMatchService ongoingMatchService;
+    private final FinishedMatchService finishedMatchService;
 
-    public MatchController(OngoingMatchService ongoingMatchService) {
+    public MatchController(OngoingMatchService ongoingMatchService, FinishedMatchService finishedMatchService) {
         this.ongoingMatchService = ongoingMatchService;
+        this.finishedMatchService = finishedMatchService;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,6 +30,16 @@ public class MatchController {
     public OngoingMatchDTO getOngoingMatch(@PathVariable("uuid") UUID uuid) {
 
         return ongoingMatchService.getOngoingMatch(uuid);
+    }
+
+    @GetMapping
+    public FinishedMatchResponseDTO getFinishedMatch(
+            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(name = "player_name", required = false) String playerName
+//            @RequestParam(required = false) PaginationDTO pagination
+    ) {
+//        return finishedMatchService.getWithPagination(page, playerName);
+        return finishedMatchService.getAll(playerName, page, 2);
     }
 
     @PostMapping(path = "/{uuid}/point")
