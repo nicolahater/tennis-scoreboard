@@ -2,9 +2,13 @@ package dev.backend.dao;
 
 import dev.backend.entity.MatchEntity;
 import dev.backend.entity.PlayerEntity;
+import dev.backend.utils.MyPage;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class MatchDao {
@@ -12,6 +16,57 @@ public class MatchDao {
 
     public MatchDao(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    public MyPage<MatchEntity> getAll(String name, Integer page, Integer size) {
+        int offset = (page-1) * size;
+
+        // TODO: use CriteriaBuilder later
+        String getAllHQL = """
+            select m
+            from MatchEntity m
+            join fetch m.playerEntity1
+            join fetch m.playerEntity2
+            where upper(m.playerEntity1.name) = upper(:name)
+                  or upper(m.playerEntity2.name) = upper(:name)
+                  or :name is null
+            order by m.id desc
+        """;
+
+        String getTotalHQL = """
+            select count(m)
+            from MatchEntity m
+            where upper(m.playerEntity1.name) = upper(:name)
+                  or upper(m.playerEntity2.name) = upper(:name)
+                  or :name is null
+        """;
+
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            List<MatchEntity> matches = em.createQuery(getAllHQL, MatchEntity.class)
+                    .setParameter("name", name)
+                    .setMaxResults(size)    // "limit" alternative
+                    .setFirstResult(offset) // "offset" alternative
+                    .getResultList();
+
+            Long totalMatches = em.createQuery(getTotalHQL, Long.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+
+            em.getTransaction().commit();
+
+
+            return new MyPage<>(matches, page, totalMatches, size);
+        } catch (Exception e) {
+            System.out.println("Caught exception: " + e + "; executing rollback....");
+            if(em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
     }
 
 //    public void create(PlayerEntity player1, PlayerEntity player2) {
