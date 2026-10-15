@@ -3,19 +3,38 @@ package dev.backend.service;
 import dev.backend.dao.MatchDao;
 import dev.backend.dao.PlayerDao;
 import dev.backend.dto.CreateFinishedMatchRequestDTO;
+import dev.backend.dto.FinishedMatchDTO;
+import dev.backend.dto.FinishedMatchResponseDTO;
 import dev.backend.entity.MatchEntity;
 import dev.backend.entity.PlayerEntity;
+import dev.backend.mapper.FinishedMatchMapper;
+import dev.backend.utils.MyPage;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FinishedMatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
+    private final FinishedMatchMapper matchMapper;
 
-    public FinishedMatchService(PlayerDao playerDao, MatchDao matchDao) {
+    public FinishedMatchService(PlayerDao playerDao, MatchDao matchDao, FinishedMatchMapper matchMapper) {
         this.playerDao = playerDao;
         this.matchDao = matchDao;
+        this.matchMapper = matchMapper;
     }
+
+public FinishedMatchResponseDTO getAll(String playerName, Integer page, Integer size) {
+    MyPage<MatchEntity> pageMatches = matchDao.getAll(playerName, page, size);
+    List<FinishedMatchDTO> matchDTOs = matchMapper.toFinishedMatchDTOs(pageMatches.getContent());
+
+    return new FinishedMatchResponseDTO(
+            matchDTOs,
+            pageMatches.getCurrentPage(),
+            pageMatches.getTotalPages()
+    );
+}
 
     // TODO: when I start writing tests, check if I have already one player in db
     // TODO: this should be transactional?
