@@ -20,6 +20,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.13")
     implementation("org.hibernate.orm:hibernate-core:7.4.5.Final")
     implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.25.4") // to show sql parameters
     // HikariCPI as connection pool library
 //    implementation("com.zaxxer:HikariCP:7.1.0")
 //    implementation("org.hibernate.orm:hibernate-hikaricp:7.4.5.Final")
