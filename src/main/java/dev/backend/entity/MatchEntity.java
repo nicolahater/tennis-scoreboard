@@ -35,10 +35,6 @@ public class MatchEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public PlayerEntity getPlayer1() {
         return playerEntity1;
     }
