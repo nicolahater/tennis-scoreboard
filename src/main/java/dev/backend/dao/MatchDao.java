@@ -1,13 +1,11 @@
 package dev.backend.dao;
 
 import dev.backend.entity.MatchEntity;
-import dev.backend.entity.PlayerEntity;
 import dev.backend.utils.MyPage;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -18,6 +16,7 @@ public class MatchDao {
         this.emf = emf;
     }
 
+    // TODO: `page` and `size` in Pageable
     public MyPage<MatchEntity> getAll(String name, Integer page, Integer size) {
         int offset = (page-1) * size;
 
@@ -69,11 +68,10 @@ public class MatchDao {
         }
     }
 
-//    public void create(PlayerEntity player1, PlayerEntity player2) {
     public void save(MatchEntity match) {
         EntityManager em = emf.createEntityManager();
 
-        // TODO: Extract the try/catch block into a separate class (TransactionHandler).
+        // TODO: Extract the try/catch block into a separate class (TransactionHandler). Maybe use proxy pattern to implement this. Also transaction has to be in service layer.
         try {
             em.getTransaction().begin(); //TODO: this throws error(check docs) if isActive() is true, so we can't have nested transaction. If we want to have transactions in service, then we need to check here if we already in transaction.
             em.persist(match);
