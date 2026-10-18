@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class PlayerDao {
     private final EntityManagerFactory emf;
@@ -13,8 +15,7 @@ public class PlayerDao {
         this.emf = emf;
     }
 
-    // TODO: make it Optional<PlayerEntity>
-    public PlayerEntity findByName(String name) {
+    public Optional<PlayerEntity> findByName(String name) {
         EntityManager em = emf.createEntityManager();
 
         try {
@@ -32,17 +33,16 @@ public class PlayerDao {
 
             em.getTransaction().commit();
 
-            return playerEntity;
+            return Optional.ofNullable(playerEntity);
         } catch (Exception e) {
             System.out.println("Caught exception: " + e + "; executing rollback...."); // TODO: replace with log
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
+            throw e;
         } finally {
             em.close();
         }
-
-        return null;
     }
 
     // TODO: return Optional<PlayerEntity>
