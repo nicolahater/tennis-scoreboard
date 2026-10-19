@@ -9,6 +9,8 @@ import dev.backend.entity.MatchEntity;
 import dev.backend.entity.PlayerEntity;
 import dev.backend.mapper.FinishedMatchMapper;
 import dev.backend.utils.MyPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class FinishedMatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
     private final FinishedMatchMapper matchMapper;
+    private static final Integer DEFAULT_SIZE = 5;
 
     public FinishedMatchService(PlayerDao playerDao, MatchDao matchDao, FinishedMatchMapper matchMapper) {
         this.playerDao = playerDao;
@@ -25,16 +28,22 @@ public class FinishedMatchService {
         this.matchMapper = matchMapper;
     }
 
-public FinishedMatchResponseDTO getAll(String playerName, Integer page, Integer size) {
-    MyPage<MatchEntity> pageMatches = matchDao.getAll(playerName, page, size);
-    List<FinishedMatchDTO> matchDTOs = matchMapper.toFinishedMatchDTOs(pageMatches.getContent());
+    public FinishedMatchResponseDTO getAll(String playerName, Integer page) {
+        return getAll(playerName, page, DEFAULT_SIZE);
+    }
 
-    return new FinishedMatchResponseDTO(
-            matchDTOs,
-            pageMatches.getCurrentPage(),
-            pageMatches.getTotalPages()
-    );
-}
+    public FinishedMatchResponseDTO getAll(String playerName, Integer page, Integer size) {
+//        int offset = (page-1) * size;
+        MyPage<MatchEntity> pageMatches = matchDao.getAll(playerName, page, size);
+
+        List<FinishedMatchDTO> matchDTOs = matchMapper.toFinishedMatchDTOs(pageMatches.getContent());
+
+        return new FinishedMatchResponseDTO(
+                matchDTOs,
+                pageMatches.getCurrentPage(),
+                pageMatches.getTotalPages()
+        );
+    }
 
 //  TODO when this will be Transactional I will be able to write it like this and in save to make merge() if entity is null, and everything will be in minimum requests to db. This works because everything is in one transaction
 //  TODO: when I start writing tests, check if I have already one player in db
