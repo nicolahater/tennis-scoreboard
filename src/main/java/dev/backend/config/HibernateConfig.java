@@ -70,7 +70,7 @@ public class HibernateConfig {
         properties.put(JdbcSettings.SHOW_SQL, hibernateShowSQL);
         properties.put(JdbcSettings.HIGHLIGHT_SQL, hibernateHighlightSQL);
 
-        properties.put("log4j.logger.org.hibernate.orm.jdbc.bind", "TRACE");
+//        properties.put("log4j.logger.org.hibernate.orm.jdbc.bind", "TRACE");
 
         // HikariCP config
 //        properties.put("hibernate.connection.provider_class", "hikaricp");
