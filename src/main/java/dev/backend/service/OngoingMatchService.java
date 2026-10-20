@@ -22,7 +22,7 @@ public class OngoingMatchService {
     private final OngoingMatchMapper ongoingMatchMapper;
     private final FinishedMatchMapper finishedMatchMapper;
     private final FinishedMatchService finishedMatchService;
-    private ConcurrentHashMap<UUID, TennisMatch> concurrentHashMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<UUID, TennisMatch> ongoingMatchMap = new ConcurrentHashMap<>();
 
     public OngoingMatchService(
             PlayerDao playerDao,
@@ -46,24 +46,24 @@ public class OngoingMatchService {
         TennisMatch match = new TennisMatch(player1, player2);
 
         UUID matchUUID = UUID.randomUUID();
-        concurrentHashMap.put(matchUUID, match);
+        ongoingMatchMap.put(matchUUID, match);
 
 
         return new CreateMatchResponseDTO(matchUUID); // TODO: in mapper
     }
 
     public OngoingMatchDTO getOngoingMatch(UUID uuid) {
-        return ongoingMatchMapper.toMatchMapperDTO(concurrentHashMap.get(uuid));
+        return ongoingMatchMapper.toMatchMapperDTO(ongoingMatchMap.get(uuid));
     }
 
     // TODO: is this should be transactional? I guess yes
     public OngoingMatchDTO addPointToPlayer(UUID uuid, AddPointRequestDTO requestDTO) {
-        TennisMatch match = concurrentHashMap.get(uuid);
+        TennisMatch match = ongoingMatchMap.get(uuid);
         match.getMatchScore().addPointTo(new TennisPlayer(requestDTO.name())); // TODO: in score maps instead of TennisPlayer use just String, also you can avoid using TennisPlayer or add createPlayer method and create player at first
 
         if(match.getMatchScore().isFinished()) {
             finishedMatchService.create(finishedMatchMapper.toCreateFinishedMatchRequestDTO(match));
-            concurrentHashMap.remove(uuid);
+            ongoingMatchMap.remove(uuid);
         }
 
         return ongoingMatchMapper.toMatchMapperDTO(match);
