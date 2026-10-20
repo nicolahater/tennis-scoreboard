@@ -11,17 +11,7 @@ import java.util.List;
 @Repository
 public class MatchDao {
     private final EntityManagerFactory emf;
-
-    public MatchDao(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    // TODO: `page` and `size` in Pageable
-    public MyPage<MatchEntity> getAll(String name, Integer page, Integer size) {
-        int offset = (page-1) * size;
-
-        // TODO: use CriteriaBuilder later
-        String getAllHQL = """
+    private static final String FIND_MATCHES_BY_NAME_QUERY = """
             select m
             from MatchEntity m
             join fetch m.playerEntity1
@@ -30,60 +20,60 @@ public class MatchDao {
                   or upper(m.playerEntity2.name) = upper(:name)
                   or :name is null
             order by m.id desc
-        """;
-
-        String getTotalHQL = """
+            """;
+    private static final String TOTAL_MATCHES_NUMBER_BY_NAME_QUERY = """
             select count(m)
             from MatchEntity m
             where upper(m.playerEntity1.name) = upper(:name)
                   or upper(m.playerEntity2.name) = upper(:name)
                   or :name is null
-        """;
-
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            List<MatchEntity> matches = em.createQuery(getAllHQL, MatchEntity.class)
-                    .setParameter("name", name)
-                    .setMaxResults(size)    // "limit" alternative
-                    .setFirstResult(offset) // "offset" alternative
-                    .getResultList();
-
-            Long totalMatches = em.createQuery(getTotalHQL, Long.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-
-            em.getTransaction().commit();
+            """;
 
 
-            return new MyPage<>(matches, page, totalMatches, size);
-        } catch (Exception e) {
-            System.out.println("Caught exception: " + e + "; executing rollback....");
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            em.close();
-        }
+    public MatchDao(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
-    public void save(MatchEntity match) {
-        EntityManager em = emf.createEntityManager();
+    // TODO:
+//    public MyPage<MatchEntity> getAll(Integer page, Integer size) {
+//        baseGetAll() // return criteria query or builder
+//        // then make here request without where clause
+//    }
+//
+//    public MyPage<MatchEntity> getAll(String name, Integer page, Integer size) {
+//        baseGetAll() // return criteria query or builder. some like that root is from(MatchEntity order by -- this is the base
+//        // then append to it where clause
+//        // then make reqest
+//    }
+//
+//
+//    public MyPage<MatchEntity> baseGetAll(CriteriaQuery/CriteriaBuilder, Integer page, Integer size)
+    // TODO: also instead of "String name" I can accept "Object filterClause" and checking instances of these objects or it is possible to make like this using map: https://stackoverflow.com/questions/965690/how-do-i-use-optional-parameters-in-java
 
-        // TODO: Extract the try/catch block into a separate class (TransactionHandler). Maybe use proxy pattern to implement this. Also transaction has to be in service layer.
-        try {
-            em.getTransaction().begin(); //TODO: this throws error(check docs) if isActive() is true, so we can't have nested transaction. If we want to have transactions in service, then we need to check here if we already in transaction.
-            em.persist(match);
 
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Caught exception: " + e + "; executing rollback...."); // TODO: replace with log
-            if(em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-        } finally {
-            em.close();
-        }
+    // TODO: `page` and `size` in Pageable
+    public MyPage<MatchEntity> getAll(EntityManager em, String name, Integer page, Integer size) {
+        // TODO: it calculation should be in service layer
+        int offset = (page-1) * size;
+
+        // TODO: use CriteriaBuilder later
+
+        List<MatchEntity> matches = em.createQuery(FIND_MATCHES_BY_NAME_QUERY, MatchEntity.class)
+                .setParameter("name", name)
+                .setMaxResults(size)    // "limit" alternative
+                .setFirstResult(offset) // "offset" alternative
+                .getResultList();
+
+        Long totalMatches = em.createQuery(TOTAL_MATCHES_NUMBER_BY_NAME_QUERY, Long.class)
+                .setParameter("name", name)
+                .getSingleResult();
+
+        return new MyPage<>(matches, page, totalMatches, size);
+    }
+
+    public void save(EntityManager em, MatchEntity match) {
+//        if(match.getId() != null) em.persist(match);
+//        else em.merge(match);
+        em.persist(match);
     }
 }
