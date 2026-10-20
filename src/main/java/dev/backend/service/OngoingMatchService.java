@@ -63,6 +63,7 @@ public class OngoingMatchService {
 
         if(match.getMatchScore().isFinished()) {
             finishedMatchService.create(finishedMatchMapper.toCreateFinishedMatchRequestDTO(match));
+            concurrentHashMap.remove(uuid);
         }
 
         return ongoingMatchMapper.toMatchMapperDTO(match);
