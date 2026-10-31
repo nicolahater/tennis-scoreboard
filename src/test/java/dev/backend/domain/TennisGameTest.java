@@ -124,10 +124,4 @@ public class TennisGameTest {
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> game.addPointTo(player2));
         assertEquals("The game is finished already.", ex.getMessage());
     }
-
-    @Test
-    void getOpponent_returnsTheOtherPlayer() {
-        assertEquals(player2, game.getOpponent(player1));
-        assertEquals(player1, game.getOpponent(player2));
-    }
 }

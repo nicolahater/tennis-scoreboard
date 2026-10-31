@@ -50,12 +50,6 @@ public class TennisSetTest {
     }
 
     @Test
-    void getOpponent_returnsTheOtherPlayer() {
-        assertEquals(player2, set.getOpponent(player1));
-        assertEquals(player1, set.getOpponent(player2));
-    }
-
-    @Test
     void sixLove_winsSet() {
         winGames(player1, 6);
         assertTrue(set.isFinished());

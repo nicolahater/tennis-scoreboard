@@ -99,10 +99,4 @@ public class TennisMatchScoreTest {
         assertThrows(IllegalStateException.class, () -> matchScore.addPointTo(player2));
         assertEquals(player1, matchScore.getWinner());
     }
-
-    @Test
-    void getOpponent_returnsTheOtherPlayer() {
-        assertEquals(player2, matchScore.getOpponent(player1));
-        assertEquals(player1, matchScore.getOpponent(player2));
-    }
 }

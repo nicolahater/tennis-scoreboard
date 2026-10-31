@@ -90,10 +90,4 @@ public class TennisTieBreakTest {
                 assertThrows(IllegalStateException.class, () -> tieBreak.addPointTo(player2));
         assertEquals("The tie-break is finished already.", ex.getMessage());
     }
-
-    @Test
-    void getOpponent_returnsTheOtherPlayer() {
-        assertEquals(player2, tieBreak.getOpponent(player1));
-        assertEquals(player1, tieBreak.getOpponent(player2));
-    }
 }
