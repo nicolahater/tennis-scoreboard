@@ -1,6 +1,6 @@
 package dev.backend.domain;
 
-import java.util.HashMap;
+import java.util.Objects;
 
 public class TennisGameplay {
     private final TennisPlayer player1;
@@ -15,9 +15,7 @@ public class TennisGameplay {
     }
 
     public TennisPlayer getOpponent(TennisPlayer player) {
-//        return player.name().equals(player1.name()) ? player2 : player1;
-//        // TODO: add this method and add test for it
-//        if (!player.equals(player1) && !player.equals(player2)) throw new IllegalArgumentException("Unknown player");
+        requireKnownPlayer(player);
 
         return player.equals(player1) ? player2 : player1;
     }
@@ -27,6 +25,10 @@ public class TennisGameplay {
     }
 
     public void setWinner(TennisPlayer winner) {
+        requireKnownPlayer(winner);
+
+        if(isFinished()) throw new IllegalStateException("Game is already finished");
+
         this.winner = winner;
     }
 
@@ -34,6 +36,12 @@ public class TennisGameplay {
 //        return gameScore.get(player);
 //    }
 
+    private void requireKnownPlayer(TennisPlayer player) {
+        Objects.requireNonNull(player, "Player must not be null");
+        if (!player.equals(player1) && !player.equals(player2)) {
+            throw new IllegalArgumentException("Unknown player");
+        }
+    }
 
     public TennisPlayer getPlayer1() {
         return player1;
