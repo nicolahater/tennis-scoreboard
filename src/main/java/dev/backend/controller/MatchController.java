@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+// TODO: in refractor/extract-shared-logic in Gameplay I can in method getScore return Object and in children I can check if it is "Integer" or "PointScore"
+
 @RestController
 @RequestMapping("/matches")
 public class MatchController {
@@ -38,8 +45,8 @@ public class MatchController {
             @RequestParam(name = "player_name", required = false) String playerName
 //            @RequestParam(required = false) PaginationDTO pagination
     ) {
-//        return finishedMatchService.getWithPagination(page, playerName);
-        return finishedMatchService.getAll(playerName, page, 2);
+        return finishedMatchService.getAll(playerName, page);
+//        return finishedMatchService.getAll(playerName, page, 2);
     }
 
     @PostMapping(path = "/{uuid}/point")

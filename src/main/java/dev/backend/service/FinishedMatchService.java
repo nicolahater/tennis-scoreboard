@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+//@Transactional
 public class FinishedMatchService {
     private final PlayerDao playerDao;
     private final MatchDao matchDao;
@@ -26,6 +27,8 @@ public class FinishedMatchService {
     private final EntityManagerFactory emf;
     private static final Logger log = LoggerFactory.getLogger(FinishedMatchService.class);
     private static final Integer DEFAULT_SIZE = 5;
+//    @PersistenceContext
+//    private EntityManager em;
 
     public FinishedMatchService(PlayerDao playerDao, MatchDao matchDao, FinishedMatchMapper matchMapper, EntityManagerFactory emf) {
         this.playerDao = playerDao;
@@ -34,10 +37,12 @@ public class FinishedMatchService {
         this.emf = emf;
     }
 
+//    @Transactional(readOnly = true)
     public FinishedMatchResponseDTO getAll(String playerName, Integer page) {
         return getAll(playerName, page, DEFAULT_SIZE);
     }
 
+//    @Transactional(readOnly = true)
     public FinishedMatchResponseDTO getAll(String playerName, Integer page, Integer size) {
 //        int offset = (page-1) * size;
 
@@ -54,7 +59,7 @@ public class FinishedMatchService {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             em.close();
         }
@@ -76,7 +81,7 @@ public class FinishedMatchService {
 //        log.info("Tyring to find first player={}", requestDTO.firstPlayerName());
 //        PlayerEntity player1 = playerDao.findByName(requestDTO.firstPlayerName())
 //                .orElseGet(() -> {
-////                    log.info("Player={} not found", requestDTO.firstPlayerName());
+    ////                    log.info("Player={} not found", requestDTO.firstPlayerName());
 //                    return new PlayerEntity(requestDTO.firstPlayerName());
 //                });
 //        log.info("Tyring to find second player={}", requestDTO.secondPlayerName());
@@ -96,6 +101,8 @@ public class FinishedMatchService {
 //        log.info("Match with players: {} and {} is saved", player1.getName(), player2.getName());
 //    }
 
+//    @MyTransactiona
+//    @Transactional
     public void create(CreateFinishedMatchRequestDTO requestDTO) {
         // TODO: this all needs to be extracted to some validation class? or method? or in custom validator?
         String firstPlayerName = requestDTO.firstPlayerName();
@@ -105,7 +112,7 @@ public class FinishedMatchService {
             throw new SamePlayersException(requestDTO.firstPlayerName());
         }
         if(!firstPlayerName.equals(winnerName)
-            && !secondPlayerName.equals(winnerName)) {
+                && !secondPlayerName.equals(winnerName)) {
             throw new IllegalStateException(
                     "Unknown winner. The winner's name does not match the name of the players."
             );
@@ -127,7 +134,7 @@ public class FinishedMatchService {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             em.close();
         }

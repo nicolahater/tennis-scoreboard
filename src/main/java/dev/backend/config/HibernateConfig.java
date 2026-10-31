@@ -38,6 +38,12 @@ public class HibernateConfig {
     @Value("${hibernate.highlight_sql}")
     private String hibernateHighlightSQL;
 
+    // TODO: do it in another branch
+//    @Bean
+//    public PlatformTransactionManager txManager(EntityManagerFactory emf) {
+//        return new JpaTransactionManager(emf);
+//    }
+
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         Map<String, String> properties = getPersistenceProperties();

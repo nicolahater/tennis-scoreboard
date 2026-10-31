@@ -18,6 +18,8 @@ public class FinishedMatchMapper {
         );
     }
 
+    // TODO: null checking
+
     public FinishedMatchDTO toFinishedMatchDTO(MatchEntity match) {
         return new FinishedMatchDTO(
                 match.getPlayer1().getName(),

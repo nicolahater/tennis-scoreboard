@@ -16,10 +16,14 @@ dependencies {
     implementation("org.springframework:spring-webmvc:7.0.8")
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
 
-    // AOP
+//    // Transactions
+//    implementation("org.springframework:spring-orm:7.0.8")
+//
+//    // AOP
+////    implementation("org.springframework.boot:spring-boot-starter-aop:4.0.0-M1")
 //    implementation("org.springframework:spring-aop:7.0.8")
-//    compileOnly("org.aspectj:aspectjweaver:1.9.25.1")
-////    implementation("org.aspectj:aspectjweaver:1.9.25.1")
+////    compileOnly("org.aspectj:aspectjweaver:1.9.25.1")
+//    implementation("org.aspectj:aspectjweaver:1.9.25.1")
 
     // JSON mapper
     implementation("tools.jackson.core:jackson-databind:3.2.3")
