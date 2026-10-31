@@ -4,6 +4,7 @@ import dev.backend.entity.PlayerEntity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,15 @@ import java.util.Optional;
 @Repository
 public class PlayerDao {
     private final EntityManagerFactory emf;
+//    @PersistenceContext
+//    private EntityManager em;
+
     private static final Logger log = LoggerFactory.getLogger(PlayerDao.class);
+    private static final String FIND_PLAYER_BY_NAME_QUERY = """
+                select p
+                from PlayerEntity p
+                where p.name = :name
+                """;
 
     public PlayerDao(EntityManagerFactory emf) {
         this.emf = emf;
@@ -34,13 +43,8 @@ public class PlayerDao {
 
 
     public Optional<PlayerEntity> findByName(EntityManager em, String name) {
-        String sql = """
-                select p
-                from PlayerEntity p
-                where p.name = :name
-                """;
         PlayerEntity playerEntity = em
-                .createQuery(sql, PlayerEntity.class)
+                .createQuery(FIND_PLAYER_BY_NAME_QUERY, PlayerEntity.class)
                 .setParameter("name", name)
                 .getSingleResultOrNull();
 
