@@ -48,6 +48,4 @@ public class TennisMatch {
                     .getCurrentGame()
                     .getScore(player);
     }
-
-
 }

@@ -1,21 +1,18 @@
 package dev.backend.domain;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TennisGameplay {
     private final TennisPlayer player1;
     private final TennisPlayer player2;
     private TennisPlayer winner = null;
-//    private final Map<TennisPlayer, Integer> gameScore = new HashMap<>();
+//    private final Map<TennisPlayer, T> gameScore = new HashMap<>();
 
 
     public TennisGameplay(TennisPlayer player1, TennisPlayer player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
-
-
 
     public TennisPlayer getOpponent(TennisPlayer player) {
 //        return player.name().equals(player1.name()) ? player2 : player1;
@@ -33,8 +30,8 @@ public class TennisGameplay {
         this.winner = winner;
     }
 
-    //    public PointScore getScore(TennisPlayer player) {
-//        return scores.get(player);
+//    public PointScore getScore(TennisPlayer player) {
+//        return gameScore.get(player);
 //    }
 
 

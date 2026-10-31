@@ -51,9 +51,6 @@ public class TennisSet extends TennisGameplay {
         return tieBreak;
     }
 
-    // TODO: I have the same methods in TennisGame, need to inherit from main class
-
-
     // TODO: maybe make for all class getCurren and put it in parent class
 //    public TennisGame getCurren {
     public TennisGame getCurrentGame() {
