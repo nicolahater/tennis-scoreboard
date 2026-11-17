@@ -1,1 +1,1 @@
-rootProject.name = "TennisScoarboard"
+rootProject.name = "TennisScoreboard"
